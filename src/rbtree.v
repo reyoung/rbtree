@@ -351,7 +351,7 @@ fn find[K, V](root_ &RBTreeNode[K, V], key K, less fn (a K, b K) bool) &RBTreeNo
 }
 
 pub struct RBTree[K, V] {
-	less_than ?fn (a K, b K) bool
+	less_than fn (a K, b K) bool
 mut:
 	root &RBTreeNode[K, V] = unsafe { nil }
 }
@@ -362,9 +362,11 @@ pub fn (mut t RBTree[K, V]) empty() bool {
 
 [inline]
 fn (t RBTree[K, V]) real_less_than(a K, b K) bool {
-	less_than := t.less_than or { return a < b }
+	if t.less_than == unsafe { nil } {
+		return a < b
+	}
 
-	return less_than(a, b)
+	return t.less_than(a, b)
 }
 
 [manualfree]

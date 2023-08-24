@@ -256,7 +256,7 @@ fn delete_node[K, V](root_ &RBTreeNode[K, V], node_ &RBTreeNode[K, V]) &RBTreeNo
 			replace = replace.left
 		}
 		if node.parent != unsafe { nil } {
-			if node.parent.left == node {
+			if node.parent.left.ptr_equals(node) {
 				node.parent.left = replace
 			} else {
 				node.parent.right = replace
@@ -298,7 +298,7 @@ fn delete_node[K, V](root_ &RBTreeNode[K, V], node_ &RBTreeNode[K, V]) &RBTreeNo
 		child.parent = parent
 	}
 	if parent != unsafe { nil } {
-		if parent.left == node {
+		if parent.left.ptr_equals(node) {
 			parent.left = child
 		} else {
 			parent.right = child
